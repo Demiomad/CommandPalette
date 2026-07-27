@@ -4,13 +4,19 @@
 			"name": "Keybind",
 			"type": "keybind",
 			"default": "Alt+Space",
-			"description": "The keybind that triggers the search box."
+			"description": "The keybind that triggers the search box"
 		},
 		"play-sound-on-open": {
 			"name": "Play Sound on Open",
 			"default": true,
 			"type": "bool",
 			"description": "Whether to play a sound when opening"
+		},
+		"blur-behind": {
+			"name": "Blur Behind",
+			"default": false,
+			"type": "bool",
+			"description": "Whether to blur behind the search box, disabled by default for performance"
 		}
 	},
 	"geode": "5.8.2",
@@ -27,7 +33,11 @@
 	"developer": "Demiomad",
 	"description": "Adds a command palette to Geometry Dash",
 	"dependencies": {
-		"geode.node-ids": ">=v1.23.3"
+		"geode.node-ids": ">=v1.23.3",
+		"thesillydoggo.blur-api": {
+            "version": ">=v1.0.0",
+            "required": true
+        }
 	},
 	"resources": {
 		"files": [
@@ -37,5 +47,8 @@
 			"resources/sprites/*.png",
 			"resources/previews/*.png"
 		]
+	},
+	"links": {
+		"source": "https://github.com/Demiomad/CommandPalette"
 	}
 }

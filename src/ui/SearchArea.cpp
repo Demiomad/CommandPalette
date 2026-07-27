@@ -3,6 +3,7 @@
 #include "../core/CommandParser.hpp"
 #include "../core/SearchAreaManager.hpp"
 #include "../Utils.hpp"
+#include "../BlurAPI.hpp"
 
 using namespace geode::prelude;
 
@@ -29,6 +30,10 @@ bool CommandPalette::UI::SearchArea::init() {
     bg->setOpacity(100);
     this->addChild(bg);
     
+    auto isBlurEnabled = mod->getSettingValue<bool>("blur-behind");
+    if (isBlurEnabled && BlurAPI::isBlurAPIEnabled())
+        BlurAPI::addBlur(bg);
+
     auto textInput = TextInput::create(350.f, "Enter a command...");
     textInput->setPosition({ (winSize.width / 2) - 25.f, winSize.height - 35.f });
     textInput->setID("command-input"_spr);
@@ -73,8 +78,9 @@ bool CommandPalette::UI::SearchArea::init() {
 }
 
 void CommandPalette::UI::SearchArea::registerCommands() {
-    m_registry.createCommand("gd", "Utilities for the game", [](const auto&) {
-        auto loader = geode::Loader::get();
+    auto loader = geode::Loader::get();
+
+    m_registry.createCommand("gd", "Utilities for the game", [loader](const auto&) {
         auto gameVer = loader->getGameVersion();
 
         auto infoText = fmt::format("You are on Geometry Dash {}", gameVer);
@@ -97,8 +103,17 @@ void CommandPalette::UI::SearchArea::registerCommands() {
         game::restart(false);
     });
 
-    m_registry.createCommand("geode", "Utilities for Geode", [](const auto&) {
-        auto loader = geode::Loader::get();
+    m_registry.addSubcommand("gd", "settings", "Opens the game's settings", [](const auto&) {
+        auto layer = OptionsLayer::create();
+        layer->showLayer(false);
+    });
+
+    m_registry.addSubcommand("gd", "achievements", "Displays your achievements", [](const auto&) {
+        auto layer = AchievementsLayer::create();
+        layer->showLayer(false);
+    });
+
+    m_registry.createCommand("geode", "Utilities for Geode", [loader](const auto&) {
         auto loaderVer = loader->getVersion().toVString();
         auto installedMods = loader->getAllMods().size();
 
@@ -111,13 +126,12 @@ void CommandPalette::UI::SearchArea::registerCommands() {
         FLAlertLayer::create("Geode", infoText, "OK")->show();
     });
 
-    m_registry.addSubcommand("geode", "settings", "Opens a mod's settings", [](const std::vector<std::string>& args) {
+    m_registry.addSubcommand("geode", "settings", "Opens a mod's settings", [loader](const std::vector<std::string>& args) {
         if (args.empty()) {
             Notification::create("Usage: geode mod <mod-id>", NotificationIcon::Info)->show();
             return;
         }
 
-        auto loader = geode::Loader::get();
         auto modId = args.at(0);        
         auto mod = loader->getInstalledMod(modId);
 
@@ -136,7 +150,6 @@ void CommandPalette::UI::SearchArea::registerCommands() {
             return;
         }
 
-        auto loader = geode::Loader::get();
         auto modId = args.at(0);     
         geode::openInfoPopup(modId);
     });
@@ -219,7 +232,7 @@ void CommandPalette::UI::SearchArea::registerCommands() {
     });
 
     m_registry.createCommand("level", "Commands for interacting with levels", [](const auto&) {
-        Notification::create("Usage: level local <level-name>", NotificationIcon::Info)->show();
+        Notification::create("Usage: level <local/search> <level-name>", NotificationIcon::Info)->show();
     });
 
     m_registry.addSubcommand("level", "local", "Displays information about a level that you created", [](const std::vector<std::string>& args) {
@@ -240,6 +253,21 @@ void CommandPalette::UI::SearchArea::registerCommands() {
 
         auto scene = EditLevelLayer::scene(level);
         auto transition = CCTransitionFade::create(0.5f, scene);
+        CCDirector::sharedDirector()->pushScene(transition);
+    });
+
+    m_registry.addSubcommand("level", "search", "Searches for a level on the servers", [](const std::vector<std::string>& args) {
+        if (args.empty()) {
+            Notification::create("Usage: level search <query>", NotificationIcon::Info)->show();
+            return;
+        }
+
+        auto query = string::join(args, " ");
+        auto glm = GameLevelManager::get();
+        auto searchObj = GJSearchObject::create(SearchType::Search, query);
+        auto scene = LevelBrowserLayer::scene(searchObj);
+        auto transition = CCTransitionFade::create(0.5f, scene);
+
         CCDirector::sharedDirector()->pushScene(transition);
     });
 }

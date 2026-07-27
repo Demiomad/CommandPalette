@@ -18,7 +18,8 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES}
     src/core/CommandParser.hpp
     src/core/CommandRegistry.hpp
     src/core/CommandDefinition.hpp
-    src/Utils.hpp)
+    src/Utils.hpp
+    src/BlurAPI.hpp)
 
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")

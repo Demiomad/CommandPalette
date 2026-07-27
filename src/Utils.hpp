@@ -1,0 +1,26 @@
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
+#include "ui/SearchArea.hpp"
+#include "core/SearchAreaManager.hpp"
+#include <Geode/Geode.hpp>
+using namespace geode::prelude;
+
+inline std::string getSoundPath(std::string fileName) {
+    auto mod = Mod::get();
+    auto resourcesPath = mod->getResourcesDir();
+    auto path = resourcesPath / fileName;
+    return string::pathToString(path);
+}
+
+inline void showSearchArea() {
+    auto isToggled = CommandPalette::Core::SearchAreaManager::getIsToggled();
+
+    if (!isToggled) {
+        auto area = CommandPalette::UI::SearchArea::create();
+        OverlayManager::get()->addChild(area);
+        CommandPalette::Core::SearchAreaManager::setIsToggled(true);
+    }
+}
+
+#endif

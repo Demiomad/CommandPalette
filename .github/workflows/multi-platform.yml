@@ -1,4 +1,4 @@
-name: Build Geode Mod
+name: Build and Release Geode Mod
 
 on:
   workflow_dispatch:
@@ -55,3 +55,36 @@ jobs:
         with:
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}
+
+  release:
+    name: Release build
+    runs-on: ubuntu-latest
+    needs: ['package']
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Build Output
+          path: ./artifacts
+
+      - name: Get mod version
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' ./mod.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: "# What's new?\n"
+          tag_name: "${{ steps.get_version.outputs.version }}"
+          name: "${{ steps.get_version.outputs.version }}"
+          draft: false
+          prerelease: false
+          files: ./artifacts/*.geode

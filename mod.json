@@ -34,7 +34,8 @@
 			"resources/sounds/*.ogg"
 		],
 		"sprites": [
-			"resources/sprites/*.png"
+			"resources/sprites/*.png",
+			"resources/previews/*.png"
 		]
 	}
 }

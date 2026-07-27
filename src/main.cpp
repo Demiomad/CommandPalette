@@ -18,8 +18,15 @@ class $modify(CmdPalMenuLayer, MenuLayer) {
         if (!MenuLayer::init())
             return false;
 
+        auto buttonSprite  = CircleButtonSprite::createWithSprite(
+            "CmdPal_mobileIcon.png"_spr,
+            1.35f,
+            CircleBaseColor::Green,
+            CircleBaseSize::MediumAlt
+        );
+
         auto myButton = CCMenuItemSpriteExtra::create(
-			CCSprite::createWithSpriteFrameName("CmdPal_mobileIcon.png"_spr),
+			buttonSprite,
 			this,
 			menu_selector(CmdPalMenuLayer::onCmdPalButton)
 		);

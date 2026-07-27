@@ -5,7 +5,7 @@
 #include "../core/CommandRegistry.hpp"
 
 namespace CommandPalette::UI {
-    class SearchArea : public cocos2d::CCNode {
+    class SearchArea : public cocos2d::CCLayer {
         public:
             CREATE_FUNC(SearchArea);
 
@@ -18,6 +18,7 @@ namespace CommandPalette::UI {
             
             void onClose(CCObject* sender);
             void onSubmit(CCObject* sender);
+            void keyBackClicked();
 
         private:
             CommandPalette::Core::CommandRegistry m_registry;

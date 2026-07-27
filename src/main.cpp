@@ -4,7 +4,7 @@
 
 using namespace geode::prelude;
 
-#if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_MACOS)
+#if defined(GEODE_IS_DESKTOP)
 $on_game(Loaded) {
     listenForKeybindSettingPresses("activation-keybind", [](Keybind const& keybind, bool down, bool repeat, double timestamp) {
         if (down && !repeat) {

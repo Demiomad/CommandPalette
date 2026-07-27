@@ -29,7 +29,7 @@
 	"tags": ["utility", "interface", "content", "enhancement"],
 	"id": "demiomad.command-palette",
 	"name": "Command Palette",
-	"version": "v1.0.1",
+	"version": "v1.1.0",
 	"developer": "Demiomad",
 	"description": "Adds a command palette to Geometry Dash",
 	"dependencies": {

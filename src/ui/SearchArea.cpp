@@ -22,6 +22,8 @@ bool CommandPalette::UI::SearchArea::init() {
         engine->playEffect(soundPath);
     }
 
+    setKeypadEnabled(true);
+
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
     auto bg = createLayerBG();
@@ -38,6 +40,7 @@ bool CommandPalette::UI::SearchArea::init() {
     textInput->setID("command-input"_spr);
     textInput->setTextAlign(TextInputAlign::Left);
     textInput->focus();
+    textInput->setCommonFilter(CommonFilter::Any);
 
     m_textInput = textInput->getInputNode();
     this->addChild(textInput);
@@ -48,6 +51,7 @@ bool CommandPalette::UI::SearchArea::init() {
     mainMenu->setID("main-menu"_spr);
     this->addChild(mainMenu);
 
+    #if defined(GEODE_IS_MOBILE)
     auto closeBtnSprite = CCSprite::createWithSpriteFrameName("GJ_deleteIcon_001.png");
     auto closeBtn = CCMenuItemSpriteExtra::create(
         closeBtnSprite,
@@ -58,6 +62,7 @@ bool CommandPalette::UI::SearchArea::init() {
     closeBtn->setPosition({ winSize.width - 25.f, 25.f });
     closeBtn->setID("close-button"_spr);
     mainMenu->addChild(closeBtn);
+    #endif
 
     auto submitBtnSprite = CCSprite::createWithSpriteFrameName("GJ_playBtn2_001.png");
     submitBtnSprite->setScale(0.45f);
@@ -71,6 +76,12 @@ bool CommandPalette::UI::SearchArea::init() {
     submitBtn->setID("submit-button"_spr);
     submitBtn->setPosition({ winSize.width - 105.f, winSize.height - 35.f });
     mainMenu->addChild(submitBtn);
+
+    auto helpfulTip = CCLabelBMFont::create("Enter 'help' to view commands!", "chatFont.fnt");
+    helpfulTip->setID("helpful-tip"_spr);
+    helpfulTip->setPosition(winSize / 2);
+    helpfulTip->setOpacity(127);
+    this->addChild(helpfulTip);
 
     registerCommands();
     return true;
@@ -109,6 +120,11 @@ void CommandPalette::UI::SearchArea::registerCommands() {
 
     m_registry.addSubcommand("gd", "achievements", "Displays your achievements", [](const auto&) {
         auto layer = AchievementsLayer::create();
+        layer->showLayer(false);
+    });
+
+    m_registry.addSubcommand("gd", "stats", "Displays your statistics", [](const auto&) {
+        auto layer = StatsLayer::create();
         layer->showLayer(false);
     });
 
@@ -312,5 +328,9 @@ void CommandPalette::UI::SearchArea::onSubmit(CCObject*) {
         }
     }
 
+    onClose(nullptr);
+}
+
+void CommandPalette::UI::SearchArea::keyBackClicked() {
     onClose(nullptr);
 }

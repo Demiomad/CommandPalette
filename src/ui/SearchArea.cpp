@@ -19,7 +19,6 @@ bool CommandPalette::UI::SearchArea::init() {
 
         // @geode-ignore(unknown-resource)
         auto soundPath = getSoundPath("open.ogg");
-
         engine->playEffect(soundPath);
     }
 

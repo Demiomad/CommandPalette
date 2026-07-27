@@ -14,6 +14,13 @@ inline std::string getSoundPath(std::string fileName) {
 }
 
 inline void showSearchArea() {
+    auto isInsideLevel = GJBaseGameLayer::get() != nullptr;
+    if (isInsideLevel) {
+        // let's maybe consider telling the user why it cannot be summoned
+        Notification::create("Cannot summon command palette, please exit the level!", NotificationIcon::Error)->show();
+        return;
+    }
+
     auto isToggled = CommandPalette::Core::SearchAreaManager::getIsToggled();
 
     if (!isToggled) {

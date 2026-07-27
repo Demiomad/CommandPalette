@@ -29,14 +29,14 @@
 	"tags": ["utility", "interface", "content", "enhancement"],
 	"id": "demiomad.command-palette",
 	"name": "Command Palette",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "Demiomad",
 	"description": "Adds a command palette to Geometry Dash",
 	"dependencies": {
 		"geode.node-ids": ">=v1.23.3",
 		"thesillydoggo.blur-api": {
             "version": ">=v1.0.0",
-            "required": true
+            "required": false
         }
 	},
 	"resources": {

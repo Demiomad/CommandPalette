@@ -5,16 +5,18 @@
 using namespace geode::prelude;
 
 #if defined(GEODE_IS_DESKTOP)
-$on_game(Loaded) {
-    listenForKeybindSettingPresses("activation-keybind", [](Keybind const& keybind, bool down, bool repeat, double timestamp) {
-        if (down && !repeat) {
-            showSearchArea();
-        }
+$on_game(Loaded)
+{
+    listenForKeybindSettingPresses("activation-keybind", [](Keybind const& keybind, bool down, bool repeat, double timestamp)
+    {
+        if (down && !repeat) showSearchArea();
     });
 }
 #else
-class $modify(CmdPalMenuLayer, MenuLayer) {
-    bool init() {
+class $modify(CmdPalMenuLayer, MenuLayer)
+{
+    bool init()
+    {
         if (!MenuLayer::init())
             return false;
 

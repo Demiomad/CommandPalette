@@ -14,12 +14,13 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${SOURCES}
     src/ui/SearchArea.hpp
     src/core/SearchAreaManager.hpp
-    src/core/ParsedCommandData.hpp
-    src/core/CommandParser.hpp
-    src/core/CommandRegistry.hpp
-    src/core/CommandDefinition.hpp
     src/Utils.hpp
-    src/BlurAPI.hpp)
+    src/BlurAPI.hpp
+    src/core/commands/CommandRegistry.hpp
+    src/core/commands/CommandDefinition.hpp
+    src/core/commands/CommandArgs.hpp
+    src/core/commands/ParsedInput.hpp
+    src/core/commands/InputParser.hpp)
 
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")

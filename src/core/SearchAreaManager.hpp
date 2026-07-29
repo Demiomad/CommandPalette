@@ -3,8 +3,10 @@
 
 #include <Geode/Geode.hpp>
 
-namespace CommandPalette::Core {
-    class SearchAreaManager {
+namespace CommandPalette::Core
+{
+    class SearchAreaManager
+    {
         private:
             static bool s_isToggled;
 

@@ -2,10 +2,12 @@
 #define SEARCHAREA_HPP
 
 #include <Geode/Geode.hpp>
-#include "../core/CommandRegistry.hpp"
+#include "../core/commands/CommandRegistry.hpp"
 
-namespace CommandPalette::UI {
-    class SearchArea : public cocos2d::CCLayer {
+namespace CommandPalette::UI
+{
+    class SearchArea : public cocos2d::CCLayer
+    {
         public:
             CREATE_FUNC(SearchArea);
 
@@ -21,7 +23,7 @@ namespace CommandPalette::UI {
             void keyBackClicked();
 
         private:
-            CommandPalette::Core::CommandRegistry m_registry;
+            CommandPalette::Core::Commands::CommandRegistry m_registry;
     };
 }
 

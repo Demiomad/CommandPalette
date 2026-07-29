@@ -82,9 +82,12 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          body: "# What's new?\n"
+          body: "# 📅 What's new?\n[List features here]
+            | \n# 💻 How to install\n- Install [Geode](https://geode-sdk.org)\n- Click the Geode button
+            | \n- Go to the Download tab\n- Enter \"Command Palette\"\n- Click on Get, and then Install
+            | \n- If prompted, also accept the installation of other dependencies."
           tag_name: "${{ steps.get_version.outputs.version }}"
           name: "${{ steps.get_version.outputs.version }}"
-          draft: false
+          draft: true
           prerelease: false
           files: ./artifacts/*.geode
